@@ -1,0 +1,29 @@
+# Set headers for JSON content
+$headers = @{"Content-Type" = "application/json"}
+
+# 1. Create a new scenario
+$body = '{"params": {"frame_rate": 30}}'
+Invoke-RestMethod -Uri "http://localhost:8000/scenario" -Method Post -Headers $headers -Body $body
+
+# 2. Retrieve a scenario by ID 
+$scenario_id = 1
+Invoke-RestMethod -Uri "http://localhost:8000/scenario/$scenario_id" -Method Get -Headers $headers
+
+# 3. Change Scenario State to 'start' 
+$body = '{"params": {"id": 1, "state": "\'start\'"}}'
+Invoke-RestMethod -Uri "http://localhost:8000/scenario/state -Method Get -Headers $headers -Body $body
+
+# 4. Change Scenario State to 'stop'
+$scenario_id = 1
+$state = "stop"
+Invoke-RestMethod -Uri "http://localhost:8000/scenario/state?id=$scenario_id&state=$state" -Method Get -Headers $headers
+
+# 5. Check system health status
+Invoke-RestMethod -Uri "http://localhost:8000/status" -Method Get -Headers $headers
+
+
+docker-compose down -v
+docker-compose up --build
+
+docker-compose restart api
+docker-compose exec kafka nc -z localhost 9092
