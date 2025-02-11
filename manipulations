@@ -27,3 +27,20 @@ docker-compose up --build
 
 docker-compose restart api
 docker-compose exec kafka nc -z localhost 9092
+
+
+
+docker rm $(docker ps -aq)  
+docker rmi $(docker images -q)  
+
+1. 
+docker-compose up -d
+
+2.
+curl -X POST "http://localhost:8000/scenario" -H "Content-Type: application/json" -d '{"params": {"key": "value"}}'
+2.*
+curl -X PUT "http://localhost:8000/scenario/1/state"   
+3.
+curl -X PUT "http://localhost:8000/scenario/1/state?state=start"   
+
+docker-compose up -d --build
