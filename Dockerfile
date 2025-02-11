@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y libgl1-mesa-glx libglib2.0-0 && \
 
 RUN pip install torch==1.10.0 torchvision==0.11.1 torchaudio==0.10.0 -f https://download.pytorch.org/whl/torch_stable.html && \
     pip install opencv-python-headless==4.5.5.64 && \
-    pip install ultralytics fastapi uvicorn aiokafka
+    pip install ultralytics fastapi uvicorn aiokafka av
 
 COPY . /app
 WORKDIR /app
