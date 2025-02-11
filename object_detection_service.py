@@ -29,8 +29,11 @@ async def process_frame(data, producer):
                 })
 
         result_message = {"frame_id": data["frame_id"], "detections": detections}
-        await producer.send_and_wait(RESULT_TOPIC, value=json.dumps(result_message).encode('utf-8'))
-        print(f"Sent detection result for frame {data['frame_id']}")
+        try:
+            await producer.send_and_wait(RESULT_TOPIC, value=json.dumps(result_message).encode('utf-8'))
+            print(f"Sent detection result for frame {data['frame_id']}")
+        except:
+            print("Not sent")
     except Exception as e:
         print(f"Error processing frame: {str(e)}")
 
