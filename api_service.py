@@ -93,3 +93,4 @@ async def health():
         return {"status": "healthy"}
     except Exception:
         return {"status": "unhealthy"}
+
