@@ -1,8 +1,29 @@
 from aiokafka import AIOKafkaConsumer, AIOKafkaProducer, errors
 import os
 import asyncio
+from aiokafka.admin import AIOKafkaAdminClient, NewTopic
+from aiokafka.errors import TopicAlreadyExistsError
+import asyncio
+
 
 KAFKA_BROKER = os.getenv("KAFKA_BROKER", "kafka:9092")
+
+
+async def create_kafka_topic(topic_name, num_partitions=1, replication_factor=1):
+    """Create a Kafka topic using aiokafka."""
+    admin_client = AIOKafkaAdminClient(bootstrap_servers=KAFKA_BROKER)
+    await admin_client.start()
+    try:
+        topic = NewTopic(name=topic_name, num_partitions=num_partitions, replication_factor=replication_factor)
+        await admin_client.create_topics([topic])
+        print(f"Topic '{topic_name}' created successfully.")
+    except TopicAlreadyExistsError:
+        print(f"Topic '{topic_name}' already exists.")
+    except Exception as e:
+        print(f"Failed to create topic '{topic_name}': {e}")
+    finally:
+        await admin_client.close()
+
 
 async def create_kafka_consumer(topic, group_id="default-group"):
     for _ in range(5):
