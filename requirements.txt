@@ -1,0 +1,8 @@
+fastapi
+pydantic
+aiokafka
+opencv-python-headless  # Для работы с OpenCV в контейнере
+numpy
+uvicorn
+ultralytics
+python-dotenv
